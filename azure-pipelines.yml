@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'Default'
 
 
 steps:
@@ -16,7 +16,7 @@ steps:
     displayName: 'npm install'
     inputs:
       command: install
-      workingDir: '$(System.DefaultWorkingDirectory)/package.json'
+      workingDir: '$(System.DefaultWorkingDirectory)'
 # Runnnig tests
   - task: Npm@1
     displayName: 'npm run test'
