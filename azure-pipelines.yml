@@ -1,0 +1,29 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+steps:
+# Installing dependencies
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      command: install
+      workingDir: '$(System.DefaultWorkingDirectory)'
+# Runnnig tests
+  - task: Npm@1
+    displayName: 'npm run test'
+    inputs:
+      command: custom
+      customCommand: run test --watch=false --reporters=progress,junit
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**TESTS-*.xml'
