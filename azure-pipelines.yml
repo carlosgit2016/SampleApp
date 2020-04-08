@@ -16,7 +16,7 @@ steps:
     displayName: 'npm install'
     inputs:
       command: install
-      workingDir: '$(System.WorkingDirectory)/package.json'
+      workingDir: '$(System.DefaultWorkingDirectory)/package.json'
 # Runnnig tests
   - task: Npm@1
     displayName: 'npm run test'
