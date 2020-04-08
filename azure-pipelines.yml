@@ -26,12 +26,13 @@ steps:
       customCommand: run build
 
 # Runnnig tests
+  - script: |
+      ng test --watch=false --reporters=progress,junit
+# Runnning e2e tests
   - task: Npm@1
-    condition: succeededOrFailed()
-    displayName: 'npm run test'
     inputs:
       command: custom
-      customCommand: run test --watch=false --reporters=progress,junit
+      customCommand: 'run e2e'
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
