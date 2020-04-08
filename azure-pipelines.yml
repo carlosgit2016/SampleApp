@@ -17,8 +17,17 @@ steps:
     inputs:
       command: install
       workingDir: '$(System.DefaultWorkingDirectory)'
+
+# Run build
+  - task: Npm@1
+    displayName: 'npm run build'
+    inputs:
+      command: custom
+      customCommand: run build
+
 # Runnnig tests
   - task: Npm@1
+    condition: succeededOrFailed()
     displayName: 'npm run test'
     inputs:
       command: custom
