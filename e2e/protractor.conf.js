@@ -2,6 +2,7 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter } = require('jasmine-spec-reporter');
+const { JUnitXmlReporter } = require('jasmine-reporters'); 
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -9,6 +10,7 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
+    chromeOptions: { args: [ "--headless" ] },
     'browserName': 'chrome'
   },
   directConnect: true,
@@ -24,5 +26,6 @@ exports.config = {
       project: require('path').join(__dirname, './tsconfig.json')
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+    jasmine.getEnv().addReporter( new JUnitXmlReporter({ consolidateAll: true, savePath: 'e2e', filePrefix: 'TESTS-E2E' }) );
   }
 };
