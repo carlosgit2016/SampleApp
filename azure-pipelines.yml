@@ -17,13 +17,26 @@ steps:
     inputs:
       command: install
       workingDir: '$(System.DefaultWorkingDirectory)'
-# Runnnig tests
+
+# Run build
   - task: Npm@1
-    displayName: 'npm run test'
+    displayName: 'npm run build'
     inputs:
       command: custom
-      customCommand: run test --watch=false --reporters=progress,junit
+      customCommand: run build
+
+# Runnnig tests
+  - script: |
+      npx --no-install ng test --watch=false --reporters=progress,junit
+    displayName: 'ng test'
+# Runnning e2e tests
+  - task: Npm@1
+    displayName: 'npm run e2e'
+    inputs:
+      command: custom
+      customCommand: 'run e2e'
   - task: PublishTestResults@2
+    displayName: 'Publishing test results'
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: '**TESTS-*.xml'
+      testResultsFiles: '**/TESTS-*.xml'
