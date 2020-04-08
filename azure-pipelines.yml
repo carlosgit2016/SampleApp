@@ -12,22 +12,22 @@ pool:
 
 steps:
 # Installing dependencies
-  - task: Npm@1
-    displayName: 'npm install'
-    inputs:
-      command: install
-      workingDir: '$(System.DefaultWorkingDirectory)'
+#   - task: Npm@1
+#     displayName: 'npm install'
+#     inputs:
+#       command: install
+#       workingDir: '$(System.DefaultWorkingDirectory)'
 
-# Run build
-  - task: Npm@1
-    displayName: 'npm run build'
-    inputs:
-      command: custom
-      customCommand: run build
+# # Run build
+#   - task: Npm@1
+#     displayName: 'npm run build'
+#     inputs:
+#       command: custom
+#       customCommand: run build
 
 # Runnnig tests
   - script: |
-      ng test --watch=false --reporters=progress,junit
+      npx --no-install ng test --watch=false --reporters=progress,junit
 # Runnning e2e tests
   - task: Npm@1
     inputs:
