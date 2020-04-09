@@ -3,16 +3,34 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger: 
-- master
-- develop
+trigger: ['master']
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- 
 
-- download: 'App Build CI'
-  displayName: ''
-  
+- task: TriggerBuild@3
+  inputs:
+    definitionIsInCurrentTeamProject: true
+    buildDefinition: 'App Build CI'
+    queueBuildForUserThatTriggeredBuild: true
+    ignoreSslCertificateErrors: false
+    useSameSourceVersion: false
+    useCustomSourceVersion: false
+    useSameBranch: true
+    waitForQueuedBuildsToFinish: true
+    waitForQueuedBuildsToFinishRefreshTime: '10'
+    failTaskIfBuildsNotSuccessful: true
+    cancelBuildsIfAnyFails: false
+    treatPartiallySucceededBuildAsSuccessful: false
+    downloadBuildArtifacts: true
+    dropDirectory: '$(Build.BinariesDirectory)'
+    storeInEnvironmentVariable: true
+    authenticationMethod: 'OAuth Token'
+    password: '$(System.AccessToken)'
+    enableBuildInQueueCondition: false
+    dependentOnSuccessfulBuildCondition: false
+    dependentOnFailedBuildCondition: false
+    checkbuildsoncurrentbranch: false
+    failTaskIfConditionsAreNotFulfilled: false
