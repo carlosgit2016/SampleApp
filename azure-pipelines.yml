@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  supportedChromeVersion: '80.0.3987.106'
+  chromeDriverVersion: '80.0.3987.106'
 
 steps:
 # Installing dependencies
@@ -31,10 +31,12 @@ steps:
   - script: |
       npx --no-install ng test --watch=false --reporters=progress,junit
     displayName: 'ng test'
+
 # Changing version of chromedriver
   - script: |
-      node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) --gecko false --standalone false
-    displayName: 'changing version of chromedriver to $(supportedChromeVersion)'
+      node node_modules/.bin/webdriver-manager update --versions.chrome=$(chromeDriverVersion) --gecko false --standalone false
+    displayName: 'changing version of chromedriver to $(chromeDriverVersion)'
+
 # Runnning e2e tests
   - script: |
       npx --no-install ng e2e --webdriverUpdate=false
@@ -46,6 +48,6 @@ steps:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/TESTS-*.xml'
 
-  - publish: 'www/*'
+  - publish: 'www/'
     artifact: 'dist'
     displayName: 'Publishing Artifact'
