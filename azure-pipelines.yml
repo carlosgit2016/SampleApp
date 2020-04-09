@@ -37,6 +37,11 @@ steps:
       customCommand: 'run e2e'
   - task: PublishTestResults@2
     displayName: 'Publishing test results'
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/TESTS-*.xml'
+
+  - publish: 'www/**'
+    artifact: 'dist'
+    displayName: 'Publishing Artifact'
