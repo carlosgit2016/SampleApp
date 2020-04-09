@@ -32,7 +32,7 @@ steps:
       npx --no-install ng test --watch=false --reporters=progress,junit
     displayName: 'ng test'
 # Changing version of chromedriver
-  - script: |
+  - powershell: |
       node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) 
     displayName: 'Changing version of chromedriver to $(supportedChromeVersion)'
 # Runnning e2e tests
