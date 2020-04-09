@@ -34,6 +34,7 @@ steps:
 # Changing version of chromedriver
   - script: |
       node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) 
+    displayName: 'Changing version of chromedriver to $(supportedChromeVersion)'
 # Runnning e2e tests
   - task: Npm@1
     displayName: 'npm run e2e'
