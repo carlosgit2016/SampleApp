@@ -31,7 +31,7 @@ steps:
     dropDirectory: '$(Build.BinariesDirectory)'
     storeInEnvironmentVariable: true
     authenticationMethod: 'OAuth Token'
-    password: '$(System.AccessToken)'
+    password: '$(SYSTEM_ACCESSTOKEN)'
     enableBuildInQueueCondition: false
     dependentOnSuccessfulBuildCondition: false
     dependentOnFailedBuildCondition: false
