@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   supportedChromeVersion: '80.0.3987.106'
@@ -32,12 +32,13 @@ steps:
       npx --no-install ng test --watch=false --reporters=progress,junit
     displayName: 'ng test'
 # Changing version of chromedriver
-  - powershell: |
+  - script: |
       node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) --gecko false --standalone false
-    displayName: 'Changing version of chromedriver to $(supportedChromeVersion)'
+    displayName: 'changing version of chromedriver to $(supportedChromeVersion)'
 # Runnning e2e tests
   - script: |
       npx --no-install ng e2e --webdriverUpdate=false
+    displayName: 'ng e2e tests'
   - task: PublishTestResults@2
     displayName: 'Publishing test results'
     condition: succeededOrFailed()
