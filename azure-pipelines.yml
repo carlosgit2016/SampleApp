@@ -9,6 +9,8 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  supportedChromeVersion: '80.0.3987.106'
 
 steps:
 # Installing dependencies
@@ -29,6 +31,9 @@ steps:
   - script: |
       npx --no-install ng test --watch=false --reporters=progress,junit
     displayName: 'ng test'
+# Changing version of chromedriver
+  - script: |
+      node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) 
 # Runnning e2e tests
   - task: Npm@1
     displayName: 'npm run e2e'
