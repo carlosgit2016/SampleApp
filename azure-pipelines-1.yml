@@ -34,3 +34,12 @@ steps:
     dependentOnFailedBuildCondition: false
     checkbuildsoncurrentbranch: false
     failTaskIfConditionsAreNotFulfilled: false
+
+- script: |
+    cd $(Build.BinariesDirectory) && ls -lt
+
+- task: ExtractFiles@1
+  inputs:
+    cleanDestinationFolder: false
+    destinationFolder: $(Build.BinariesDirectory)
+    archiveFilePatterns: $(Build.BinariesDirectory)/*.zip
