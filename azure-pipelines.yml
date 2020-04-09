@@ -46,6 +46,6 @@ steps:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/TESTS-*.xml'
 
-  - publish: 'www/**'
+  - publish: 'www/*'
     artifact: 'dist'
     displayName: 'Publishing Artifact'
