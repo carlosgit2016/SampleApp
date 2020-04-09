@@ -9,10 +9,6 @@ pool:
   vmImage: 'ubuntu-latest'
 steps:
 
-- script: echo "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
-  env:
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-
 - task: TriggerBuild@3
   inputs:
     definitionIsInCurrentTeamProject: true
@@ -37,6 +33,9 @@ steps:
     dependentOnFailedBuildCondition: false
     checkbuildsoncurrentbranch: false
     failTaskIfConditionsAreNotFulfilled: false
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    
 
 - script: |
     cd $(Build.BinariesDirectory) && ls -lt
