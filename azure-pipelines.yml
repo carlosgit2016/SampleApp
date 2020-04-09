@@ -49,5 +49,5 @@ steps:
       testResultsFiles: '**/TESTS-*.xml'
 
   - publish: 'www/'
-    artifact: 'dist'
+    artifact: 'www'
     displayName: 'Publishing Artifact'
