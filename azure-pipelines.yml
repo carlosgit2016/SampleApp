@@ -33,14 +33,11 @@ steps:
     displayName: 'ng test'
 # Changing version of chromedriver
   - powershell: |
-      node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) 
+      node node_modules/.bin/webdriver-manager update --versions.chrome=$(supportedChromeVersion) --gecko false --standalone false
     displayName: 'Changing version of chromedriver to $(supportedChromeVersion)'
 # Runnning e2e tests
-  - task: Npm@1
-    displayName: 'npm run e2e'
-    inputs:
-      command: custom
-      customCommand: 'run e2e'
+  - script: |
+      npx --no-install ng e2e --webdriverUpdate=false
   - task: PublishTestResults@2
     displayName: 'Publishing test results'
     condition: succeededOrFailed()
