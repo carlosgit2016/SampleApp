@@ -41,8 +41,7 @@ steps:
     definition: 'App Build CI'
     specificBuildWithTriggering: true
     buildVersionToDownload: 'specific'
-    pipelineId: '$(TriggeredBuildIds)'
-    artifactName: 'drop'
+    runId: '$(TriggeredBuildIds)'
     targetPath: '$(Build.BinariesDirectory)'
 
 - task: ExtractFiles@1
