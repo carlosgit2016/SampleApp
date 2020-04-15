@@ -11,7 +11,7 @@ steps:
 - task: TriggerBuild@3
   inputs:
     definitionIsInCurrentTeamProject: true
-    buildDefinition: 'hello world dummy'
+    buildDefinition: 'App Build CI'
     queueBuildForUserThatTriggeredBuild: true
     ignoreSslCertificateErrors: true
     useSameSourceVersion: false
