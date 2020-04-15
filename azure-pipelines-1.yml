@@ -44,6 +44,9 @@ steps:
     runId: '$(TriggeredBuildIds)'
     targetPath: '$(Build.BinariesDirectory)'
 
+- bash: |
+      find $(Build.BinariesDirectory) -maxdepth 2 -ls -type d 
+
 - task: ExtractFiles@1
   inputs:
     cleanDestinationFolder: false
