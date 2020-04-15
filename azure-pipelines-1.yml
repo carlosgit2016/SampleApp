@@ -37,7 +37,8 @@ steps:
     echo "$TRIGGEREDBUILDIDS"
     cd $(Build.BinariesDirectory) && ls -lt
 
-- powershell: write "$($env:TriggeredBuildIds)"
+- powershell: |
+    write $($env:TriggeredBuildIds)
 
 - task: DownloadPipelineArtifact@2
   inputs:
