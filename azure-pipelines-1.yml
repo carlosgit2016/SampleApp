@@ -22,8 +22,7 @@ steps:
     failTaskIfBuildsNotSuccessful: true
     cancelBuildsIfAnyFails: false
     treatPartiallySucceededBuildAsSuccessful: false
-    downloadBuildArtifacts: true
-    dropDirectory: '$(Build.BinariesDirectory)'
+    downloadBuildArtifacts: false
     storeInEnvironmentVariable: false
     authenticationMethod: 'OAuth Token'
     password: '$(System.AccessToken)'
@@ -34,7 +33,22 @@ steps:
     failTaskIfConditionsAreNotFulfilled: false
 
 - script: |
+    echo "$TriggeredBuildIds"
+    echo "$TRIGGEREDBUILDIDS"
     cd $(Build.BinariesDirectory) && ls -lt
+
+- powershell: write "$($env:TriggeredBuildIds)"
+
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: 'Ionic App'
+    definition: 'App Build CI'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'specific'
+    pipelineId: '$($env:TriggeredBuildIds)'
+    artifactName: 'drop'
+    targetPath: '$(Build.BinariesDirectory)'
 
 - task: ExtractFiles@1
   inputs:
