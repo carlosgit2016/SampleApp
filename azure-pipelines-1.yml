@@ -38,7 +38,7 @@ steps:
     cd $(Build.BinariesDirectory) && ls -lt
 
 - powershell: |
-    write $($env:TriggeredBuildIds)
+    write-host $env:TriggeredBuildIds
 
 - task: DownloadPipelineArtifact@2
   inputs:
