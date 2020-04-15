@@ -32,14 +32,8 @@ steps:
     checkbuildsoncurrentbranch: false
     failTaskIfConditionsAreNotFulfilled: false
 
-- script: |
-    echo "$TriggeredBuildIds"
-    echo "$TRIGGEREDBUILDIDS"
-    cd $(Build.BinariesDirectory) && ls -lt
-
-- powershell: |
-    write-host $env:TriggeredBuildIds
-
+- bash: |
+      echo Trigged Build:  $(TriggeredBuildIds)
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
@@ -47,7 +41,7 @@ steps:
     definition: 'App Build CI'
     specificBuildWithTriggering: true
     buildVersionToDownload: 'specific'
-    pipelineId: '$($env:TriggeredBuildIds)'
+    pipelineId: '$(TriggeredBuildIds)'
     artifactName: 'drop'
     targetPath: '$(Build.BinariesDirectory)'
 
