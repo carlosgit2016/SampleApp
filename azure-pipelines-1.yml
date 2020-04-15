@@ -23,7 +23,7 @@ steps:
     cancelBuildsIfAnyFails: false
     treatPartiallySucceededBuildAsSuccessful: false
     downloadBuildArtifacts: false
-    storeInEnvironmentVariable: false
+    storeInEnvironmentVariable: true
     authenticationMethod: 'OAuth Token'
     password: '$(System.AccessToken)'
     enableBuildInQueueCondition: false
