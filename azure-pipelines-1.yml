@@ -8,13 +8,12 @@ trigger: ['master']
 pool:
   vmImage: 'ubuntu-latest'
 steps:
-
 - task: TriggerBuild@3
   inputs:
     definitionIsInCurrentTeamProject: true
     buildDefinition: 'App Build CI'
     queueBuildForUserThatTriggeredBuild: true
-    ignoreSslCertificateErrors: false
+    ignoreSslCertificateErrors: true
     useSameSourceVersion: false
     useCustomSourceVersion: false
     useSameBranch: true
@@ -25,15 +24,14 @@ steps:
     treatPartiallySucceededBuildAsSuccessful: false
     downloadBuildArtifacts: true
     dropDirectory: '$(Build.BinariesDirectory)'
-    storeInEnvironmentVariable: true
+    storeInEnvironmentVariable: false
     authenticationMethod: 'OAuth Token'
-    password: $(System.AccessToken)
+    password: '$(System.AccessToken)'
     enableBuildInQueueCondition: false
     dependentOnSuccessfulBuildCondition: false
     dependentOnFailedBuildCondition: false
     checkbuildsoncurrentbranch: false
     failTaskIfConditionsAreNotFulfilled: false
-    
 
 - script: |
     cd $(Build.BinariesDirectory) && ls -lt
