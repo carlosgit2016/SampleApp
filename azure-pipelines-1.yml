@@ -9,6 +9,7 @@ pool:
   vmImage: 'ubuntu-latest'
 steps:
 - task: TriggerBuild@3
+  displayName: 'trigger App Build CI'
   inputs:
     definitionIsInCurrentTeamProject: true
     buildDefinition: 'App Build CI'
@@ -32,9 +33,8 @@ steps:
     checkbuildsoncurrentbranch: false
     failTaskIfConditionsAreNotFulfilled: false
 
-- bash: |
-      echo Trigged Build:  $(TriggeredBuildIds)
 - task: DownloadPipelineArtifact@2
+  displayName: 'download artifact App Build CI'
   inputs:
     buildType: 'specific'
     project: 'Ionic App'
@@ -44,11 +44,12 @@ steps:
     runId: '$(TriggeredBuildIds)'
     targetPath: '$(Build.BinariesDirectory)'
 
-- bash: |
-      find $(Build.BinariesDirectory) -maxdepth 2 -ls -type d 
+# - bash: |
+#       find $(Build.BinariesDirectory) -maxdepth 2 -ls -type d 
 
 - bash: |
       mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
+  displayName: 'mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)'
 
 #Installing cordova
 - script: |
@@ -62,6 +63,7 @@ steps:
 
 # /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 - task: AndroidSigning@3
+  displayName: 'android signing'
   inputs:
     apkFiles: '**/outputs/apk/release/app*.apk'
     apksignerKeystoreFile: 'sampleapp.keystore'
