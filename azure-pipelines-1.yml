@@ -52,7 +52,7 @@ steps:
 
 #Installing cordova
 - script: |
-    npm i -g cordova
+    sudo npm i -g cordova
   displayName: 'npm i -g cordova@latest'
 
 # Building App Android
