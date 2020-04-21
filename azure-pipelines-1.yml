@@ -48,7 +48,7 @@ steps:
       find $(Build.BinariesDirectory) -maxdepth 2 -ls -type d 
 
 - bash: |
-      mv $(Build.BinariesDirectory)\www $(System.DefaultWorkingDirectory)
+      mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
 
 # Building App Android
 - script: |
