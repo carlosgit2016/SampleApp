@@ -58,8 +58,8 @@ steps:
 
 # Building App Android
 - bash: |
-    npx ionic cordova build android --release
-  displayName: 'ionic cordova build android --release'
+    npx ionic cordova build android --no-build --release
+  displayName: 'ionic cordova build android --no-build --release'
 
 - bash: |
     sudo apt-get install lib32z1
@@ -75,6 +75,7 @@ steps:
     apksignerKeystoreAlias: 'sampleapp'
 
 - task: CopyFiles@2
+  displayName: 'copy **/outputs/apk/release/app*.apk to $(Build.BinariesDirectory)'
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)'
     Contents: '**/outputs/apk/release/app*.apk'
