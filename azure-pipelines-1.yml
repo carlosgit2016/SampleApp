@@ -60,15 +60,14 @@ steps:
     npx ionic cordova build android --release
   displayName: 'ionic cordova build android --release'
 
-# - task: ExtractFiles@1
-#   inputs:
-#     cleanDestinationFolder: false
-#     destinationFolder: $(Build.BinariesDirectory)
-#     archiveFilePatterns: $(Build.BinariesDirectory)/*.zip
+# /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/outputs/apk/release/app*.apk'
+    apksignerKeystoreFile: 'sampleapp.keystore'
+    apksignerKeystorePassword: '$(password_keystore)'
+    apksignerKeystoreAlias: 'sampleapp'
 
-# - task: AndroidSigning@3
-#   inputs:
-#     apkFiles: '**\outputs\apk\apk*.apk'
-#     apksignerKeystoreFile: 'sampleapp.keystore'
-#     apksignerKeystorePassword: '$(password_keystore)'
-#     apksignerKeystoreAlias: 'sampleapp'
+- publish: '**\outputs\apk\release\app*.apk'
+  artifact: 'android-app'
+  displayName: 'publish artifact'
