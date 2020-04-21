@@ -51,10 +51,16 @@ steps:
       mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
   displayName: 'mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)'
 
+- bash: |
+      find $(System.DefaultWorkingDirectory) -maxdepth 2 -ls -type d 
+
 #Installing cordova
 - bash: |
     sudo npm i -g cordova
   displayName: 'npm i -g cordova@latest'
+
+- bash: |
+      find $(System.DefaultWorkingDirectory) -maxdepth 2 -ls -type d 
 
 # Building App Android
 - bash: |
@@ -62,8 +68,14 @@ steps:
   displayName: 'ionic cordova build android --no-build --release'
 
 - bash: |
+      find $(System.DefaultWorkingDirectory) -maxdepth 2 -ls -type d 
+
+- bash: |
     sudo apt-get install lib32z1
   displayName: 'sudo apt-get install lib32z1'
+
+- bash: |
+      find $(System.DefaultWorkingDirectory) -maxdepth 2 -ls -type d 
 
 # /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 - task: AndroidSigning@3
