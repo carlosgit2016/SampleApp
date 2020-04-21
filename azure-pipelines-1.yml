@@ -52,14 +52,18 @@ steps:
   displayName: 'mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)'
 
 #Installing cordova
-- script: |
+- bash: |
     sudo npm i -g cordova
   displayName: 'npm i -g cordova@latest'
 
 # Building App Android
-- script: |
+- bash: |
     npx ionic cordova build android --release
   displayName: 'ionic cordova build android --release'
+
+- bash: |
+    sudo apt-get install lib32z1
+  displayName: 'sudo apt-get install lib32z1'
 
 # /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 - task: AndroidSigning@3
