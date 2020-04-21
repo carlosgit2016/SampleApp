@@ -47,8 +47,23 @@ steps:
 - bash: |
       find $(Build.BinariesDirectory) -maxdepth 2 -ls -type d 
 
-- task: ExtractFiles@1
-  inputs:
-    cleanDestinationFolder: false
-    destinationFolder: $(Build.BinariesDirectory)
-    archiveFilePatterns: $(Build.BinariesDirectory)/*.zip
+- bash: |
+      mv $(Build.BinariesDirectory)\www $(System.DefaultWorkingDirectory)
+
+# Building App Android
+- script: |
+    npx ionic cordova build android --release
+  displayName: 'ionic cordova build android --release'
+
+# - task: ExtractFiles@1
+#   inputs:
+#     cleanDestinationFolder: false
+#     destinationFolder: $(Build.BinariesDirectory)
+#     archiveFilePatterns: $(Build.BinariesDirectory)/*.zip
+
+# - task: AndroidSigning@3
+#   inputs:
+#     apkFiles: '**\outputs\apk\apk*.apk'
+#     apksignerKeystoreFile: 'sampleapp.keystore'
+#     apksignerKeystorePassword: '$(password_keystore)'
+#     apksignerKeystoreAlias: 'sampleapp'
