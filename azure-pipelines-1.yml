@@ -50,6 +50,11 @@ steps:
 - bash: |
       mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
 
+#Installing cordova
+- script: |
+    npm i -g cordova
+  displayName: 'npm i -g cordova@latest'
+
 # Building App Android
 - script: |
     npx ionic cordova build android --release
