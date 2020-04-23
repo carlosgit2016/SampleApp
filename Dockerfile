@@ -12,7 +12,7 @@ ENV JAVA_HOME=/usr/local/openjdk-8 \
 ENV PATH $JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH
 
 WORKDIR /usr/src/app
-COPY . .
+COPY src/ resources/ ionic-integration-cordova/ ./*.json config.xml ./
 COPY --from=java /usr/local/openjdk-8 /usr/local/openjdk-8
 COPY --from=gradle /opt/gradle /opt/gradle
 RUN npm install
