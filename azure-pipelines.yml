@@ -1,14 +1,8 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- master
-
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  chromeDriverVersion: '80.0.3987.106'
 
 steps:
 # Installing dependencies
@@ -29,14 +23,23 @@ steps:
   - script: |
       npx --no-install ng test --watch=false --reporters=progress,junit
     displayName: 'ng test'
+
+# Changing version of chromedriver
+  - script: |
+      node node_modules/.bin/webdriver-manager update --versions.chrome=$(chromeDriverVersion) --gecko false --standalone false
+    displayName: 'changing version of chromedriver to $(chromeDriverVersion)'
+
 # Runnning e2e tests
-  - task: Npm@1
-    displayName: 'npm run e2e'
-    inputs:
-      command: custom
-      customCommand: 'run e2e'
+  - script: |
+      npx --no-install ng e2e --webdriverUpdate=false
+    displayName: 'ng e2e tests'
   - task: PublishTestResults@2
     displayName: 'Publishing test results'
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/TESTS-*.xml'
+
+  - publish: 'www/'
+    artifact: 'www'
+    displayName: 'Publishing Artifact'

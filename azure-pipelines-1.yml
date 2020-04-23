@@ -1,0 +1,87 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: ['master']
+
+pool:
+  vmImage: 'ubuntu-latest'
+steps:
+- task: TriggerBuild@3
+  displayName: 'trigger App Build CI'
+  inputs:
+    definitionIsInCurrentTeamProject: true
+    buildDefinition: 'App Build CI'
+    queueBuildForUserThatTriggeredBuild: true
+    ignoreSslCertificateErrors: true
+    useSameSourceVersion: false
+    useCustomSourceVersion: false
+    useSameBranch: true
+    waitForQueuedBuildsToFinish: true
+    waitForQueuedBuildsToFinishRefreshTime: '10'
+    failTaskIfBuildsNotSuccessful: true
+    cancelBuildsIfAnyFails: false
+    treatPartiallySucceededBuildAsSuccessful: false
+    downloadBuildArtifacts: false
+    storeInEnvironmentVariable: true
+    authenticationMethod: 'OAuth Token'
+    password: '$(System.AccessToken)'
+    enableBuildInQueueCondition: false
+    dependentOnSuccessfulBuildCondition: false
+    dependentOnFailedBuildCondition: false
+    checkbuildsoncurrentbranch: false
+    failTaskIfConditionsAreNotFulfilled: false
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'download artifact App Build CI'
+  inputs:
+    buildType: 'specific'
+    project: 'Ionic App'
+    definition: 'App Build CI'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'specific'
+    runId: '$(TriggeredBuildIds)'
+    targetPath: '$(Build.BinariesDirectory)'
+
+- bash: |
+      mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)
+  displayName: 'mv $(Build.BinariesDirectory)/www $(System.DefaultWorkingDirectory)'
+
+#Installing cordova
+- bash: |
+    sudo npm i -g cordova
+  displayName: 'npm i -g cordova@latest'
+
+# Building App Android
+- bash: |
+    npx ionic cordova build android --no-build --release
+  displayName: 'ionic cordova build android --no-build --release'
+
+# https://www.softprayog.in/troubleshooting/error-while-loading-shared-libraries-libz-so-1
+- bash: |
+    sudo apt-get install lib32z1
+  displayName: 'sudo apt-get install lib32z1'
+
+# /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+- task: AndroidSigning@3
+  displayName: 'android signing'
+  inputs:
+    apkFiles: '**/outputs/apk/release/app*.apk'
+    apksignerKeystoreFile: 'sampleapp.keystore'
+    apksignerKeystorePassword: '$(password_keystore)'
+    apksignerKeystoreAlias: 'sampleapp'
+
+- task: CopyFiles@2
+  displayName: 'copy **/outputs/apk/release/app*.apk to $(Build.BinariesDirectory)'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/outputs/apk/release/app*.apk'
+    CleanTargetFolder: true
+    TargetFolder: '$(Build.BinariesDirectory)'
+    flattenFolders: true
+    
+
+- publish: '$(Build.BinariesDirectory)'
+  artifact: 'android-app'
+  displayName: 'publish artifact'
