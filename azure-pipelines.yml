@@ -30,9 +30,9 @@ steps:
     displayName: 'ng test'
 
 # Changing version of chromedriver
-  # - script: |
-  #     node node_modules/.bin/webdriver-manager update --versions.chrome=$(chromeDriverVersion) --gecko false --standalone false
-  #   displayName: 'changing version of chromedriver to $(chromeDriverVersion)'
+  - script: |
+      node node_modules/.bin/webdriver-manager update 
+    displayName: 'changing version of chromedriver to $(chromeDriverVersion)'
 
 # Runnning e2e tests
   - script: |
