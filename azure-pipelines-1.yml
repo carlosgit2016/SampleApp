@@ -55,9 +55,9 @@ steps:
   displayName: 'ionic cordova build android --no-build --release'
 
 # https://www.softprayog.in/troubleshooting/error-while-loading-shared-libraries-libz-so-1
-# - bash: |
-#     sudo apt-get install lib32z1
-#   displayName: 'sudo apt-get install lib32z1'
+- bash: |
+    sudo apt-get install lib32z1
+  displayName: 'sudo apt-get install lib32z1'
 
 # /home/vsts/work/1/s/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 - task: AndroidSigning@3
