@@ -39,7 +39,7 @@ steps:
 # This task download the chromedriver binary, required for e2e tests
 # In this case I installed a specific version of chromedriver to avoid errors with the version of Chrome in the hosted agent microsoft, see the troubleshooting topic.
   - script: |
-      node node_modules/.bin/webdriver-manager update --versions.chrome=$(chromeDriverVersion) --gecko false --standalone false
+      node node_modules/.bin/webdriver-manager update 
     displayName: 'changing version of chromedriver to $(chromeDriverVersion)'
 
 
